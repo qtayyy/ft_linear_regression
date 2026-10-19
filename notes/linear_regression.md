@@ -59,13 +59,14 @@ The model begins training with randomized weights and biases near zero, then rep
 
 1. Calculate the loss with the current weight and bias.
 2. Determine the direction to move the weights and bias that reduces loss.
-3. Move the weight and bias values a small amount (learning rate $\alpha$) in the direction that reduces loss:
-
-    $$
-    w \leftarrow w - \alpha \frac{\partial L}{\partial w}, \qquad b \leftarrow b - \alpha \frac{\partial L}{\partial b}
-    $$
-
+3. Move the weight and bias values a small amount (learning rate $\alpha$) in the direction that reduces loss.
 4. Return to step 1 and repeat the process until the model can't reduce the loss any further (i.e., it converges).
+
+The update in step 3 is:
+
+$$
+w \leftarrow w - \alpha \frac{\partial L}{\partial w}, \qquad b \leftarrow b - \alpha \frac{\partial L}{\partial b}
+$$
 
 ### How is step 2 carried out?
 
@@ -123,10 +124,9 @@ Training typically requires many epochs; that is, the system needs to process ev
 
 ## Exercises
 
-Click each question to reveal a sample answer.
+### 1. Why do we **subtract** the product of a **small amount** and the slope from our old weight/bias to get the new weight/bias?
 
-<details>
-<summary>1. Why do we <b>subtract</b> the product of a <b>small amount</b> and the slope from our old weight/bias to get the new weight/bias?</summary>
+**Answer:**
 
 - The slope (gradient) points in the direction where the loss **increases** fastest. Subtracting it moves us the opposite way, i.e., downhill towards lower loss.
 - We multiply by a **small amount** (the learning rate $\alpha$) because the slope only describes the loss near the current point. A big step can overshoot the minimum and land somewhere with a higher loss.
@@ -135,19 +135,17 @@ $$
 w_{\text{new}} = w_{\text{old}} - \alpha \frac{\partial L}{\partial w}
 $$
 
-</details>
+### 2. Does a minimum always exist in a loss function? (Concept of a convex surface)
 
-<details>
-<summary>2. Does a minimum always exist in a loss function? (Concept of a convex surface)</summary>
+**Answer:**
 
 - Not always. $L \geq 0$ means the loss can't go below 0, but it may only get closer and closer to some value without reaching it (e.g., logistic regression on perfectly separable data, where loss keeps approaching 0 as the weights grow).
 - If the loss is **convex** (a bowl shape), like MSE for linear regression, a minimum exists and any local minimum is also the global minimum.
 - If the bowl is **strictly** convex (e.g., no feature is an exact copy or combination of others), that minimum is unique.
 
-</details>
+### 3. If the derivative = 0, does this mean you're guaranteed to have found the best fit? (Global vs. local minima)
 
-<details>
-<summary>3. If the derivative = 0, does this mean you're guaranteed to have found the best fit? (Global vs. local minima)</summary>
+**Answer:**
 
 - No. A derivative of 0 only means the surface is flat at that point (a stationary point). It could be:
     - a **global minimum** (the best fit),
@@ -157,10 +155,9 @@ $$
 - For a convex loss like MSE in linear regression, the only stationary point is the global minimum, so there it **is** guaranteed.
 - In practice, gradient descent rarely hits exactly 0; it stops when the loss stops improving meaningfully.
 
-</details>
+### 4. When doing partial differentiation on a loss function, what does it tell you when the derivative contains other variables that you haven't differentiated with respect to?
 
-<details>
-<summary>4. When doing partial differentiation on a loss function, what does it tell you when the derivative contains other variables that you haven't differentiated with respect to?</summary>
+**Answer:**
 
 - It means the parameters are **coupled**: the slope in one direction depends on the current value of the others. For MSE:
 
@@ -172,23 +169,19 @@ $$
 - Both contain $b$ and $w_1$, so the best $w_1$ depends on $b$ and vice versa. You can't optimize each one in isolation.
 - This is why all gradients are computed using the **old** values first, then all parameters are updated at the same time (simultaneous update).
 
-</details>
+### 5. Is it advisable to have a loss of 0?
 
-<details>
-<summary>5. Is it advisable to have a loss of 0?</summary>
+**Answer:**
 
 - Usually not, at least on the training data. Real data contains noise, so a loss of 0 usually means the model has **memorized** the training set (overfitting) and will generalize poorly to new data.
 - What matters is a low loss on **unseen** (validation/test) data.
 - In logistic regression, a loss of 0 would require infinitely large weights, which is why regularization is used.
 
-</details>
+### 6. Why is it important that the difference between the old model parameters and the new model parameters is proportional to the slope of the loss function?
 
-<details>
-<summary>6. Why is it important that the difference between the old model parameters and the new model parameters is proportional to the slope of the loss function?</summary>
+**Answer:**
 
 - Far from the minimum, the slope is steep, so steps are big and progress is fast.
 - Near the minimum, the slope flattens, so steps shrink automatically and the model settles in instead of jumping over the minimum.
 - At the minimum, the slope is 0, so the step is 0 and the parameters stop changing. That is what convergence means.
 - With a fixed step size instead, the model would keep bouncing around the minimum and never settle.
-
-</details>
