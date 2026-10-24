@@ -45,13 +45,14 @@ The confusion matrix helps us identify the best classification threshold based o
 ### Recall / true positive rate
 
 - Proportion of all actual positives that were correctly classified as positives: $\frac{TP}{TP + FN}$
-- Also known as the probability of detection.
+- Also known as the probability of detection, or **sensitivity**.
 - In an imbalanced dataset where the number of actual positives is very low, recall is a more meaningful metric than accuracy.
 
 ### False positive rate
 
 - Proportion of all actual negatives that were *incorrectly* classified as positives: $\frac{FP}{FP + TN}$
 - Also known as the probability of false alarm.
+- Related to **specificity** (true negative rate), the proportion of actual negatives correctly classified as negatives: $\frac{TN}{TN + FP} = 1 - FPR$
 - Generally also more informative than accuracy in an imbalanced dataset.
 - However, it may not be suitable if the number of actual negatives is low (see precision).
 
