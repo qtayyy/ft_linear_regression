@@ -1,7 +1,7 @@
 # Introduction
 - Models ingest an array of floating-point values called a feature vector.
 - These vectors seldom use the dataset's raw values. Instead, they're usually altered througha process called feature engineering.
-- Two of the most common technoques are:
+- Two of the most common techniques are:
     - Normalization: converting numerical values into a standard range.
     - Binning/bucketing: converting numerical values into buckets of ranges.
 
@@ -62,3 +62,27 @@
     - Note that outliers that are genuine mistakes should be DELETED not clipped.
 - Note that clipping can be done pre- or post-normalization.
 - Do NOT clip outliers that are actually important.
+
+# Binning (bucketing)
+- A feature engineering technique that groups different numerical subranges into bins or buckets.
+- In many cases, it turns numerical data into categorical data.
+- Binning causes a model to treat a feature as N separate features (where N is the number of bins). Therefore, the model learns separate weights for each bin.
+- This makes it a good alternative to scaling (normalization) or clipping when:
+    - The overall *linear* relationship between the feature and the label is weak/nonexistent.
+    - When the feature values are clustered.
+- Note that it's not a good idea to have too many bins because:
+    - There might noe be enough examples in a single bin for the model to learn from.
+    - The num of features in a model should be minimized.
+
+## Quantile bucketing
+- This technique creates bucketing boundaries so that the num of examples in each bucket is exactly or nearly equal. It mostly hides the outliers.
+- This is a very useful technique for skewed data as it compacts the long tail into a single bucket.
+
+# Scrubbing
+- Many datasets are unreliable due to one or more of the following problems:
+    - Omitted values, duplicate examples, out-of-range feature values, bad lables
+- A program or script can be written to weed out many of these data issues.
+
+# Polynomial transforms
+- Sometimes, when you have domain knowledge about how one variable is related to some power of another variable, it's useful to create a synthetic feature from one of the existing numerical features.
+
