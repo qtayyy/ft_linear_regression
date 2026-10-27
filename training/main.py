@@ -7,9 +7,7 @@ from pathlib import Path
 
 DATA_PATH = Path(__file__).resolve().parent / "data.csv"
 
-# batch_size = 10
-
-def graph(df, formula, x_range):
+def plot_model(df, formula, x_range):
     x = np.array(x_range)
     y = formula(x)
     plt.plot(x, y, color='red')
@@ -17,7 +15,13 @@ def graph(df, formula, x_range):
     plt.xlabel('km')
     plt.ylabel('price').set_color('black')
     plt.title('Car Prices vs. Mileage').set_color('black')
-    plt.show()
+
+def plot_loss(losses):
+    plt.figure()
+    plt.plot(range(1, len(losses) + 1), losses)
+    plt.xlabel('epoch')
+    plt.ylabel('mse')
+    plt.title('Loss')
 
 def load_data(path = DATA_PATH):
     df = pd.read_csv(path)
@@ -40,16 +44,16 @@ def main():
     epochs = 150
     df = load_data(DATA_PATH)
     model = LinearRegression()
-    model.fit(df, learning_rate, epochs)
+    losses = model.fit(df, learning_rate, epochs)
     mse, rmse, r2 = metrics(df, model)
     print(f"MSE: {mse}, RMSE: {rmse}, R²: {r2}, Theta0: {model.theta0}, Theta1: {model.theta1}")
     model.save()
-    graph(df, model.predict, [0, df["km"].max()])
+    plot_model(df, model.predict, [0, df["km"].max()])
+    plot_loss(losses)
+    plt.show()
 
 if __name__ == "__main__":
     main()
-# plt.plot(losses)
-# plt.show()
 
 
 

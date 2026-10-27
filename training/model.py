@@ -13,6 +13,7 @@ class LinearRegression:
         row_count = len(df)
         mileage_mean = df['km'].mean()
         mileage_std = df['km'].std()
+        losses = []
         for _ in range(epochs):
             errors = []
             for _, row in df.iterrows():
@@ -27,8 +28,10 @@ class LinearRegression:
             theta1_slope = sum(error * mileage_norm for error, mileage_norm in errors) / row_count
             theta0 -= learning_rate * theta0_slope
             theta1 -= learning_rate * theta1_slope
+            losses.append(sum(error * error for error, _ in errors) / row_count)
         self.theta0 = theta0 - theta1 * mileage_mean / mileage_std
         self.theta1 = theta1 / mileage_std
+        return losses
 
     def predict(self, km):
         return self.theta0 + self.theta1 * km
