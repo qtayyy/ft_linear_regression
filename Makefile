@@ -1,12 +1,10 @@
-export PYTHONPATH := $(CURDIR)
-
 .PHONY: train predict precision
 
 train:
-	uv run --directory training python main.py
+	uv run python -m training.main
 
 predict:
-	uv run --directory prediction python main.py
+	uv run python -m prediction.main
 
 precision:
-	uv run --directory precision python main.py
+	uv run python -m precision.main

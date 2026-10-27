@@ -1,7 +1,7 @@
 from collections.abc import Callable
 import pandas as pd
 import matplotlib.pyplot as plt
-from model import LinearRegression
+from training.model import LinearRegression
 from pathlib import Path
 
 DATA_PATH = Path(__file__).resolve().parent / "data.csv"
