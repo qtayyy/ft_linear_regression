@@ -1,3 +1,4 @@
+import math
 from training.model import LinearRegression
 
 model = LinearRegression.load()
@@ -11,10 +12,13 @@ while True: # loop until the user enters a valid mileage
     except (EOFError, KeyboardInterrupt): # Ctrl-D / Ctrl-C: exit cleanly instead of traceback
         print()
         break
-    if not mileage.isdigit() or float(mileage) < 0: # check if the mileage is a positive number
-            print("Invalid mileage value. Mileage must be a positive number.")
-            continue
-    mileage = float(mileage)
+    try:
+        mileage = float(mileage)
+    except ValueError:
+        mileage = -1.0 # not a number: fall through to the invalid message
+    if not math.isfinite(mileage) or mileage < 0: # isfinite rejects "nan" and "inf", which float() accepts
+        print("Invalid mileage value. Mileage must be a positive number.")
+        continue
 
     predicted_price = model.predict(mileage)
     if predicted_price < 0:
