@@ -53,7 +53,10 @@ def main():
     plt.show()
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt: # Ctrl-C while training or with plots open: exit cleanly instead of traceback
+        print()
 
 
 

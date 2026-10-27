@@ -6,7 +6,11 @@ if model is None: # untrained: subject requires theta0 = theta1 = 0
     model = LinearRegression()
 
 while True: # loop until the user enters a valid mileage
-    mileage = input("Enter the mileage of the car (km): ")
+    try:
+        mileage = input("Enter the mileage of the car (km): ")
+    except (EOFError, KeyboardInterrupt): # Ctrl-D / Ctrl-C: exit cleanly instead of traceback
+        print()
+        break
     if not mileage.isdigit() or float(mileage) < 0: # check if the mileage is a positive number
             print("Invalid mileage value. Mileage must be a positive number.")
             continue
