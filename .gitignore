@@ -221,3 +221,6 @@ __marimo__/
 =======
 .venv
 .env
+
+# trained model output
+training/theta_values.txt
