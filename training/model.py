@@ -12,25 +12,19 @@ class LinearRegression:
     def fit(self, df: pd.DataFrame, learning_rate: float, epochs: int) -> list[float]:
         theta0 = 0.0
         theta1 = 0.0
-        row_count = len(df)
         mileage_mean = df['km'].mean()
         mileage_std = df['km'].std()
+        # whole-column math: each line below works on every row at once
+        mileage_norm = (df['km'] - mileage_mean) / mileage_std
         losses: list[float] = []
         for _ in range(epochs):
-            errors: list[tuple[float, float]] = []
-            for _, row in df.iterrows():
-                mileage = row['km']
-                actual_price = row['price']
-                mileage_norm = (mileage - mileage_mean) / mileage_std
-                predicted_price = theta0 + theta1 * mileage_norm
-                error = predicted_price - actual_price
-                errors.append((error, mileage_norm))
+            errors = theta0 + theta1 * mileage_norm - df['price']
             # Note that the PDF wants us to absorb the 2 into the learning rate for the slopes
-            theta0_slope = sum(error for error, _ in errors) / row_count
-            theta1_slope = sum(error * mileage_norm for error, mileage_norm in errors) / row_count
+            theta0_slope = errors.mean()
+            theta1_slope = (errors * mileage_norm).mean()
             theta0 -= learning_rate * theta0_slope
             theta1 -= learning_rate * theta1_slope
-            losses.append(sum(error * error for error, _ in errors) / row_count)
+            losses.append(float((errors ** 2).mean()))
         self.theta0 = theta0 - theta1 * mileage_mean / mileage_std
         self.theta1 = theta1 / mileage_std
         return losses
