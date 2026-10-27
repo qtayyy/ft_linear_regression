@@ -18,6 +18,7 @@ The first `make` run installs Python 3.13, matplotlib, numpy, and pandas from th
 make train      # fit the model, save thetas, show the data and the loss
 make predict    # ask for a mileage and print the estimated price
 make precision  # MSE, RMSE, and R² on data.csv
+make test       # run the tests
 ```
 
 `make train` blocks on the plots. Close both windows to exit. Ctrl-C exits cleanly.
