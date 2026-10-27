@@ -1,21 +1,23 @@
 from pathlib import Path
+from typing import Self
+import pandas as pd
 
 THETA_PATH = Path(__file__).resolve().parent / "theta_values.txt"
 
 class LinearRegression:
-    def __init__(self):
-        self.theta0 = 0
-        self.theta1 = 0
+    def __init__(self) -> None:
+        self.theta0: float = 0.0
+        self.theta1: float = 0.0
 
-    def fit(self, df, learning_rate, epochs):
-        theta0 = 0
-        theta1 = 0
+    def fit(self, df: pd.DataFrame, learning_rate: float, epochs: int) -> list[float]:
+        theta0 = 0.0
+        theta1 = 0.0
         row_count = len(df)
         mileage_mean = df['km'].mean()
         mileage_std = df['km'].std()
-        losses = []
+        losses: list[float] = []
         for _ in range(epochs):
-            errors = []
+            errors: list[tuple[float, float]] = []
             for _, row in df.iterrows():
                 mileage = row['km']
                 actual_price = row['price']
@@ -33,10 +35,10 @@ class LinearRegression:
         self.theta1 = theta1 / mileage_std
         return losses
 
-    def predict(self, km):
+    def predict(self, km: float) -> float:
         return self.theta0 + self.theta1 * km
 
-    def save(self):
+    def save(self) -> None:
         try:
             with open(THETA_PATH, 'w', encoding='utf-8') as f:
                 f.write(f"Theta0: {self.theta0}\n")
@@ -46,7 +48,7 @@ class LinearRegression:
             print(f"Error saving theta values: {e}")
 
     @classmethod
-    def load(cls, path = THETA_PATH):
+    def load(cls, path: Path = THETA_PATH) -> Self | None:
         model = cls() # Create a new instance of the class
         try:
             with open(path, 'r', encoding='utf-8') as f:

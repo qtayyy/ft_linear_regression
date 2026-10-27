@@ -1,32 +1,31 @@
+from collections.abc import Callable
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 from model import LinearRegression
 from pathlib import Path
 
 DATA_PATH = Path(__file__).resolve().parent / "data.csv"
 
-def plot_model(df, formula, x_range):
-    x = np.array(x_range)
-    y = formula(x)
-    plt.plot(x, y, color='red')
+def plot_model(df: pd.DataFrame, formula: Callable[[float], float], x_range: list[float]) -> None:
+    y = [formula(x) for x in x_range] # straight line: the two end points are enough
+    plt.plot(x_range, y, color='red')
     plt.scatter(df['km'], df['price'])
     plt.xlabel('km')
     plt.ylabel('price').set_color('black')
     plt.title('Car Prices vs. Mileage').set_color('black')
 
-def plot_loss(losses):
+def plot_loss(losses: list[float]) -> None:
     plt.figure()
     plt.plot(range(1, len(losses) + 1), losses)
     plt.xlabel('epoch')
     plt.ylabel('mse')
     plt.title('Loss')
 
-def load_data(path = DATA_PATH):
+def load_data(path: Path = DATA_PATH) -> pd.DataFrame:
     df = pd.read_csv(path)
     return df
 
-def main():
+def main() -> None:
     learning_rate = 0.1
     epochs = 150
     df = load_data(DATA_PATH)
