@@ -56,6 +56,8 @@ class LinearRegression:
                 model.theta1 = float(f.readline().split(':')[1].strip())
             print("Theta values loaded from theta_values.txt")
             return model
+        except FileNotFoundError: # not trained yet: normal, callers print their own message
+            return None
         except Exception as e:
             print(f"Error loading theta values: {e}")
             return None
