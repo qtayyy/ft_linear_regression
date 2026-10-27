@@ -12,6 +12,8 @@ def metrics(df: pd.DataFrame, model: LinearRegression) -> tuple[float, float, fl
     mean_price = df['price'].mean()
     ss_res = sum((predicted_price - price) ** 2 for predicted_price, price in zip(predicted_prices, df['price']))
     ss_tot = sum((price - mean_price) ** 2 for price in df['price'])
+    if ss_tot == 0: # also true for 0 or 1 rows
+        raise ValueError("data needs at least 2 cars with different prices")
     mse = ss_res / len(df)
     return mse, math.sqrt(mse), 1 - ss_res / ss_tot
 
@@ -27,4 +29,7 @@ def main() -> None:
     print(f"R²: {r2:.4f} (1 = perfect, 0 = no better than guessing the average price)")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except ValueError as e: # bad data file: short message instead of traceback
+        print(f"Error: {e}")

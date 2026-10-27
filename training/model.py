@@ -14,6 +14,8 @@ class LinearRegression:
         theta1 = 0.0
         mileage_mean = df['km'].mean()
         mileage_std = df['km'].std()
+        if not mileage_std > 0: # also catches NaN, which std() gives for 0 or 1 rows
+            raise ValueError("data needs at least 2 cars with different mileages")
         # whole-column math: each line below works on every row at once
         mileage_norm = (df['km'] - mileage_mean) / mileage_std
         losses: list[float] = []

@@ -42,6 +42,8 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt: # Ctrl-C while training or with plots open: exit cleanly instead of traceback
         print()
+    except ValueError as e: # bad data file: short message instead of traceback
+        print(f"Error: {e}")
 
 
 
