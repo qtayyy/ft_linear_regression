@@ -1,9 +1,9 @@
 from training.model import LinearRegression
 
 model = LinearRegression.load()
-if model is None:
-    print("Model not found. Please train the model first.")
-    exit(1)
+if model is None: # untrained: subject requires theta0 = theta1 = 0
+    print("Model not trained yet. Using theta0 = 0 and theta1 = 0.")
+    model = LinearRegression()
 
 while True: # loop until the user enters a valid mileage
     mileage = input("Enter the mileage of the car (km): ")
