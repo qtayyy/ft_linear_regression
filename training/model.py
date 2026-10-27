@@ -43,7 +43,7 @@ class LinearRegression:
             with open(THETA_PATH, 'w', encoding='utf-8') as f:
                 f.write(f"Theta0: {self.theta0}\n")
                 f.write(f"Theta1: {self.theta1}\n")
-            print("Values saved to theta_values.txt")
+            print(f"Values saved to {THETA_PATH.name}")
         except OSError as e: # disk full, no permission, etc.
             print(f"Error saving theta values: {e}")
 
@@ -54,7 +54,7 @@ class LinearRegression:
             with open(path, 'r', encoding='utf-8') as f:
                 model.theta0 = float(f.readline().split(':')[1].strip())
                 model.theta1 = float(f.readline().split(':')[1].strip())
-            print("Theta values loaded from theta_values.txt")
+            print(f"Theta values loaded from {path.name}")
             return model
         except FileNotFoundError: # not trained yet: normal, callers print their own message
             return None
