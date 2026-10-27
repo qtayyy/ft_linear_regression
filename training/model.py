@@ -44,7 +44,7 @@ class LinearRegression:
                 f.write(f"Theta0: {self.theta0}\n")
                 f.write(f"Theta1: {self.theta1}\n")
             print("Values saved to theta_values.txt")
-        except Exception as e:
+        except OSError as e: # disk full, no permission, etc.
             print(f"Error saving theta values: {e}")
 
     @classmethod
@@ -58,6 +58,6 @@ class LinearRegression:
             return model
         except FileNotFoundError: # not trained yet: normal, callers print their own message
             return None
-        except Exception as e:
+        except (OSError, ValueError, IndexError) as e: # unreadable, not a number, or missing ":"
             print(f"Error loading theta values: {e}")
             return None
