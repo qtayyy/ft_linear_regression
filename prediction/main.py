@@ -1,4 +1,5 @@
 import math
+
 from training.model import LinearRegression
 
 

@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Self
+
 import pandas as pd
 
 THETA_PATH = Path(__file__).resolve().parent / "theta_values.txt"

@@ -1,7 +1,9 @@
 import math
-import pandas as pd
-from training.model import LinearRegression
 from pathlib import Path
+
+import pandas as pd
+
+from training.model import LinearRegression
 
 DATA_PATH = Path(__file__).resolve().parent.parent / "training" / "data.csv"
 

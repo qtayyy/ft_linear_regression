@@ -1,5 +1,6 @@
 import pandas as pd
 import pytest
+
 from precision.main import metrics
 from training.model import LinearRegression
 
